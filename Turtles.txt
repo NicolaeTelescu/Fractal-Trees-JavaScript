@@ -1,0 +1,125 @@
+A turtle function :
+
+function turtle()
+{
+	xNow = positions[positionNow].x;
+	yNow = positions[positionNow].y;
+	angle = Math.PI / 2;
+	
+	drawing.moveTo(xNow,yNow);
+	
+	for (var i = 0 ; i < sentence.length ; i++)
+	{
+		var current = sentence[i];
+		switch (current)
+		{
+			case "F" :
+			{
+				drawing.lineTo(xNow + len * Math.cos(angle),yNow - len * Math.sin(angle)); 
+				xNow += len * Math.cos(angle);
+				yNow -= len * Math.sin(angle);
+				break;
+			}
+			case "+" :
+			{
+				angle -= (Math.PI / 6);
+				break;
+			}
+			case "-" :
+			{
+				angle += (Math.PI / 6);
+				break;
+			}
+			case "[" :
+			{
+				positionNow++;
+				positions[positionNow] =
+				{
+					x : xNow,
+					y : yNow,
+					angle : angle
+				}
+				break;
+			}
+			case "]" :
+			{
+				xNow = positions[positionNow].x;
+				yNow = positions[positionNow].y;
+				angle = positions[positionNow].angle;
+				positionNow--;
+				break;
+			}
+		}
+	}
+	drawing.stroke();
+}
+
+
+
+
+
+
+The final turtle :
+
+function turtle()
+{	
+	// beginPath -> for reset the values and to know from where you start. You have the closePath that draw a line to start.
+	
+	
+	// It's a little bit confusing that I have to go up with the line, that means that the y will decrease.
+	xNow = positions[positionNow].x;
+	yNow = positions[positionNow].y;
+	angle = Math.PI / 2; // I will let 90 degrees because I want to draw up
+	
+	drawing.moveTo(xNow,yNow); // I'm starting from here
+	
+	for (var i = 0 ; i < sentence.length ; i++)
+	{
+		var current = sentence[i];
+		switch (current)
+		{
+			case "F" :
+			{
+				// I have to draw up, but with an angle. Here I will decrease the y coordinate, but I will increase the x coordinate
+				drawing.lineTo(xNow + len * Math.cos(angle),yNow - len * Math.sin(angle)); 
+				xNow += len * Math.cos(angle);
+				yNow -= len * Math.sin(angle);
+				break;
+			}
+			case "+" :
+			{
+				angle -= (Math.PI / 6);
+				break;
+			}
+			case "-" :
+			{
+				angle += (Math.PI / 6);
+				break;
+			}
+			case "[" :
+			{
+				positionNow++;
+				positions[positionNow] =
+				{
+					x : xNow,
+					y : yNow,
+					angle : angle
+				}
+				break;
+			}
+			case "]" :
+			{
+				xNow = positions[positionNow].x;
+				yNow = positions[positionNow].y;
+				angle = positions[positionNow].angle;
+				positionNow--;
+				
+				drawing.moveTo(xNow,yNow);
+				// I forgot that if I change the variables, it doesn't change the position where is it now the cursor for drawing
+				// and it can continue from where it was. I don't want that.
+				break;
+			}
+		}
+	}
+	drawing.stroke(); // this creates magic !
+}
